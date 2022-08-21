@@ -18,7 +18,7 @@ interface RectangleUniform extends Uniform {
 class RectangleShader extends ShaderProgram<RectangleAttribute, RectangleVarying, RectangleUniform> {
     vert(attribute: RectangleAttribute, uniform: RectangleUniform): RectangleVarying {
         const positionVec4 = new Vec4(attribute.aPosition, 1.0);
-        this.gl_Position = uniform.uProjectionMatrix * uniform.uModelViewMatrix * positionVec4;
+        this.gl_Position = uniform.uProjectionMatrix.multiply(uniform.uModelViewMatrix).multiply(positionVec4);
 
         return {
             vTexCoord: attribute.aTexCoord

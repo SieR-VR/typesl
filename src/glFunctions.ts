@@ -41,18 +41,7 @@ type TTextureLod =
 type TM =
     GLTypes.Mat2 |
     GLTypes.Mat3 |
-    GLTypes.Mat4 |
-    GLTypes.Mat2x3 |
-    GLTypes.Mat2x4 |
-    GLTypes.Mat3x2 |
-    GLTypes.Mat3x4 |
-    GLTypes.Mat4x2 |
-    GLTypes.Mat4x3 |
-    GLTypes.Mat2x2 |
-    GLTypes.Mat3x3 |
-    GLTypes.Mat4x4;
-
-type TSM = GLTypes.Mat2 | GLTypes.Mat3 | GLTypes.Mat4;
+    GLTypes.Mat4;
 
 type TOuterProduct<T extends TF> =
     T extends GLTypes.Vec2 ?
@@ -68,25 +57,7 @@ type TTranspose<T extends TM> =
     T extends GLTypes.Mat3 ?
     GLTypes.Mat3 :
     T extends GLTypes.Mat4 ?
-    GLTypes.Mat4 :
-    T extends GLTypes.Mat2x3 ?
-    GLTypes.Mat3x2 :
-    T extends GLTypes.Mat2x4 ?
-    GLTypes.Mat4x2 :
-    T extends GLTypes.Mat3x2 ?
-    GLTypes.Mat2x3 :
-    T extends GLTypes.Mat3x4 ?
-    GLTypes.Mat4x3 :
-    T extends GLTypes.Mat4x2 ?
-    GLTypes.Mat2x4 :
-    T extends GLTypes.Mat4x3 ?
-    GLTypes.Mat3x4 :
-    T extends GLTypes.Mat2x2 ?
-    GLTypes.Mat2x2 :
-    T extends GLTypes.Mat3x3 ?
-    GLTypes.Mat3x3 :
-    T extends GLTypes.Mat4x4 ?
-    GLTypes.Mat4x4 : never;
+    GLTypes.Mat4 : never;
 
 type TTextureSize<T extends TTexture> =
     T extends GLTypes.Sampler2D | GLTypes.Sampler2DShadow | GLTypes.Isampler2D | GLTypes.Usampler2D ?
@@ -203,7 +174,7 @@ export function matrixCompMult<T extends TM>(x: T, y: T): T { return x; }
 export function outerProduct<T extends TF>(x: T, y: T): TOuterProduct<T> { return {} as TOuterProduct<T> }
 export function transpose<T extends TM>(m: T): TTranspose<T> { return {} as TTranspose<T> }
 export function determinant<T extends TM>(m: T): GLTypes.Float { return {} as GLTypes.Float }
-export function inverse<T extends TSM>(m: T): T { return {} as T }
+export function inverse<T extends TM>(m: T): T { return {} as T }
 
 export function lessThan<T extends TF | TI | TU>(x: T, y: T): TB { return {} as TB }
 export function lessThanEqual<T extends TF | TI | TU>(x: T, y: T): TB { return {} as TB }

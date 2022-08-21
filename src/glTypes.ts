@@ -15,6 +15,7 @@ export class Int {
     multiply(other: Int | number): Int { return new Int(); }
     divide(other: Int | number): Int { return new Int(); }
     modulo(other: Int | number): Int { return new Int(); }
+    negative(): Int { return new Int(); }
 
     equals(other: Int | number): Bool { return new Bool(); }
     notEquals(other: Int | number): Bool { return new Bool(); }
@@ -84,6 +85,12 @@ export class Vec2 {
     get t(): Float { return new Float(); }
     get 0(): Float { return new Float(); }
     get 1(): Float { return new Float(); }
+
+    add(rhs: Vec2): Vec2 { return new Vec2(0); }
+    subtract(rhs: Vec2): Vec2 { return new Vec2(0); }
+    multiply(rhs: Vec2): Vec2 { return new Vec2(0); }
+    divide(rhs: Vec2): Vec2 { return new Vec2(0); }
+    negative(): Vec2 { return new Vec2(0); }
 }
 export class Vec3 {
     private typename: "vec3" = "vec3";
@@ -101,6 +108,12 @@ export class Vec3 {
     get 0(): Float { return new Float(); }
     get 1(): Float { return new Float(); }
     get 2(): Float { return new Float(); }
+
+    add(rhs: Vec3): Vec3 { return new Vec3(0); }
+    subtract(rhs: Vec3): Vec3 { return new Vec3(0); }
+    multiply(rhs: Vec3): Vec3 { return new Vec3(0); }
+    divide(rhs: Vec3): Vec3 { return new Vec3(0); }
+    negative(): Vec3 { return new Vec3(0); }
 }
 export class Vec4 {
     private typename: "vec4" = "vec4";
@@ -122,6 +135,12 @@ export class Vec4 {
     get 1(): Float { return new Float(); }
     get 2(): Float { return new Float(); }
     get 3(): Float { return new Float(); }
+
+    add(rhs: Vec4): Vec4 { return new Vec4(0); }
+    subtract(rhs: Vec4): Vec4 { return new Vec4(0); }
+    multiply(rhs: Vec4): Vec4 { return new Vec4(0); }
+    divide(rhs: Vec4): Vec4 { return new Vec4(0); }
+    negative(): Vec4 { return new Vec4(0); }
 }
 
 export class Bvec2 {
@@ -188,6 +207,12 @@ export class Ivec2 {
     get t(): Int { return new Int(); }
     get 0(): Int { return new Int(); }
     get 1(): Int { return new Int(); }
+
+    add(rhs: Ivec2): Ivec2 { return new Ivec2(0); }
+    subtract(rhs: Ivec2): Ivec2 { return new Ivec2(0); }
+    multiply(rhs: Ivec2): Ivec2 { return new Ivec2(0); }
+    divide(rhs: Ivec2): Ivec2 { return new Ivec2(0); }
+    negative(): Ivec2 { return new Ivec2(0); }
 }
 export class Ivec3 {
     private typename: "ivec3" = "ivec3";
@@ -205,6 +230,12 @@ export class Ivec3 {
     get 0(): Int { return new Int(); }
     get 1(): Int { return new Int(); }
     get 2(): Int { return new Int(); }
+
+    add(rhs: Ivec3): Ivec3 { return new Ivec3(0); }
+    subtract(rhs: Ivec3): Ivec3 { return new Ivec3(0); }
+    multiply(rhs: Ivec3): Ivec3 { return new Ivec3(0); }
+    divide(rhs: Ivec3): Ivec3 { return new Ivec3(0); }
+    negative(): Ivec3 { return new Ivec3(0); }
 }
 export class Ivec4 {
     private typename: "ivec4" = "ivec4";
@@ -226,6 +257,12 @@ export class Ivec4 {
     get 1(): Int { return new Int(); }
     get 2(): Int { return new Int(); }
     get 3(): Int { return new Int(); }
+
+    add(rhs: Ivec4): Ivec4 { return new Ivec4(0); }
+    subtract(rhs: Ivec4): Ivec4 { return new Ivec4(0); }
+    multiply(rhs: Ivec4): Ivec4 { return new Ivec4(0); }
+    divide(rhs: Ivec4): Ivec4 { return new Ivec4(0); }
+    negative(): Ivec4 { return new Ivec4(0); }
 }
 
 export class Uvec2 {
@@ -240,6 +277,11 @@ export class Uvec2 {
     get t(): Uint { return new Uint(); }
     get 0(): Uint { return new Uint(); }
     get 1(): Uint { return new Uint(); }
+
+    add(rhs: Uvec2): Uvec2 { return new Uvec2(0); }
+    subtract(rhs: Uvec2): Uvec2 { return new Uvec2(0); }
+    multiply(rhs: Uvec2): Uvec2 { return new Uvec2(0); }
+    divide(rhs: Uvec2): Uvec2 { return new Uvec2(0); }
 }
 export class Uvec3 {
     private typename: "uvec3" = "uvec3";
@@ -257,6 +299,11 @@ export class Uvec3 {
     get 0(): Uint { return new Uint(); }
     get 1(): Uint { return new Uint(); }
     get 2(): Uint { return new Uint(); }
+
+    add(rhs: Uvec3): Uvec3 { return new Uvec3(0); }
+    subtract(rhs: Uvec3): Uvec3 { return new Uvec3(0); }
+    multiply(rhs: Uvec3): Uvec3 { return new Uvec3(0); }
+    divide(rhs: Uvec3): Uvec3 { return new Uvec3(0); }
 }
 export class Uvec4 {
     private typename: "uvec4" = "uvec4";
@@ -277,106 +324,74 @@ export class Uvec4 {
     get 0(): Uint { return new Uint(); }
     get 1(): Uint { return new Uint(); }
     get 2(): Uint { return new Uint(); }
+
+    add(rhs: Uvec4): Uvec4 { return new Uvec4(0); }
+    subtract(rhs: Uvec4): Uvec4 { return new Uvec4(0); }
+    multiply(rhs: Uvec4): Uvec4 { return new Uvec4(0); }
+    divide(rhs: Uvec4): Uvec4 { return new Uvec4(0); }
 }
+
+type Mat2Mul = Float | Vec2 | Mat2;
+type Mat2MulResult<T> =
+    T extends Float ? Mat2 :
+    T extends Vec2 ? Vec2 :
+    T extends Mat2 ? Mat2 :
+    never;
 
 export class Mat2 {
     private typename: "mat2" = "mat2";
-    constructor(...args: (Float | Vec2 | Vec3 | Vec4 | Mat2 | Mat2x2)[]) { }
+    constructor(...args: (Float | Vec2 | Vec3 | Vec4 | Mat2)[]) { }
 
     get 0(): Vec2 { return new Vec2(0); }
     get 1(): Vec2 { return new Vec2(0); }
+
+    add(rhs: Mat2): Mat2 { return new Mat2(); }
+    subtract(rhs: Mat2): Mat2 { return new Mat2(); }
+    multiply<T extends Mat2Mul>(rhs: T): Mat2MulResult<T> { return {} as Mat2MulResult<T>; }
+    divide(rhs: Mat2): Mat2 { return new Mat2(); }
 }
+
+type Mat3Mul = Float | Vec3 | Mat3;
+type Mat3MulResult<T> =
+    T extends Float ? Mat3 :
+    T extends Vec3 ? Vec3 :
+    T extends Mat3 ? Mat3 :
+    never;
+
 export class Mat3 {
     private typename: "mat3" = "mat3";
-    constructor(...args: (Float | Vec2 | Vec3 | Vec4 | Mat2 | Mat2x2 | Mat3x2 | Mat2x3 | Mat3 | Mat3x3 | Mat2x4 | Mat4x2)[]) { }
+    constructor(...args: (Float | Vec2 | Vec3 | Vec4 | Mat2 | Mat3)[]) { }
 
     get 0(): Vec3 { return new Vec3(0); }
     get 1(): Vec3 { return new Vec3(0); }
     get 2(): Vec3 { return new Vec3(0); }
+
+    add(rhs: Mat3): Mat3 { return new Mat3(); }
+    subtract(rhs: Mat3): Mat3 { return new Mat3(); }
+    multiply<T extends Mat3Mul>(rhs: T): Mat3MulResult<T> { return {} as Mat3MulResult<T>; }
+    divide(rhs: Mat3): Mat3 { return new Mat3(); }
 }
+
+type Mat4Mul = Float | Vec4 | Mat4;
+type Mat4MulResult<T> = 
+    T extends Float ? Mat4 :
+    T extends Vec4 ? Vec4 :
+    T extends Mat4 ? Mat4 :
+    never;
+
 export class Mat4 {
     private typename: "mat4" = "mat4";
-    constructor(...args: (Float | Vec2 | Vec3 | Vec4 | Mat2 | Mat2x2 | Mat3x2 | Mat2x3 | Mat3 | Mat3x3 | Mat4x2 | Mat2x4 | Mat4x3 | Mat3x4 | Mat4)[]) { }
+    constructor(...args: (Float | Vec2 | Vec3 | Vec4 | Mat2 | Mat3 | Mat4)[]) { }
 
     get 0(): Vec4 { return new Vec4(0); }
     get 1(): Vec4 { return new Vec4(0); }
     get 2(): Vec4 { return new Vec4(0); }
     get 3(): Vec4 { return new Vec4(0); }
-}
 
-export class Mat2x2 {
-    private typename: "mat2x2" = "mat2x2";
-    constructor(...args: (Float | Vec2 | Vec3 | Vec4 | Mat2 | Mat2x2)[]) { }
-
-    get 0(): Vec2 { return new Vec2(0); }
-    get 1(): Vec2 { return new Vec2(0); }
-}
-export class Mat2x3 {
-    private typename: "mat2x3" = "mat2x3";
-    constructor(...args: (Float | Vec2 | Vec3 | Vec4 | Mat2 | Mat2x2 | Mat3x2 | Mat2x3)[]) { }
-
-    get 0(): Vec3 { return new Vec3(0); }
-    get 1(): Vec3 { return new Vec3(0); }
-}
-export class Mat2x4 {
-    private typename: "mat2x4" = "mat2x4";
-    constructor(...args: (Float | Vec2 | Vec3 | Vec4 | Mat2 | Mat2x2 | Mat4x2 | Mat2x4)[]) { }
-
-    get 0(): Vec4 { return new Vec4(0); }
-    get 1(): Vec4 { return new Vec4(0); }
-}
-
-export class Mat3x2 {
-    private typename: "mat3x2" = "mat3x2";
-    constructor(...args: (Float | Vec2 | Vec3 | Vec4 | Mat2 | Mat2x2 | Mat3x2 | Mat2x3)[]) { }
-
-    get 0(): Vec2 { return new Vec2(0); }
-    get 1(): Vec2 { return new Vec2(0); }
-    get 2(): Vec2 { return new Vec2(0); }
-}
-export class Mat3x3 {
-    private typename: "mat3x3" = "mat3x3";
-    constructor(...args: (Float | Vec2 | Vec3 | Vec4 | Mat2 | Mat2x2 | Mat3x2 | Mat2x3 | Mat3 | Mat3x3 | Mat2x4 | Mat4x2)[]) { }
-
-    get 0(): Vec3 { return new Vec3(0); }
-    get 1(): Vec3 { return new Vec3(0); }
-    get 2(): Vec3 { return new Vec3(0); }
-}
-export class Mat3x4 {
-    private typename: "mat3x4" = "mat3x4";
-    constructor(...args: (Float | Vec2 | Vec3 | Vec4 | Mat2 | Mat2x2 | Mat3x2 | Mat2x3 | Mat3 | Mat3x3 | Mat4x2 | Mat2x4 | Mat4x3 | Mat3x4)[]) { }
-
-    get 0(): Vec4 { return new Vec4(0); }
-    get 1(): Vec4 { return new Vec4(0); }
-    get 2(): Vec4 { return new Vec4(0); }
-}
-
-export class Mat4x2 {
-    private typename: "mat4x2" = "mat4x2";
-    constructor(...args: (Float | Vec2 | Vec3 | Vec4 | Mat2 | Mat2x2 | Mat2x3 | Mat3x2 | Mat4x2 | Mat2x4)[]) { }
-
-    get 0(): Vec2 { return new Vec2(0); }
-    get 1(): Vec2 { return new Vec2(0); }
-    get 2(): Vec2 { return new Vec2(0); }
-    get 3(): Vec2 { return new Vec2(0); }
-}
-export class Mat4x3 {
-    private typename: "mat4x3" = "mat4x3";
-    constructor(...args: (Float | Vec2 | Vec3 | Vec4 | Mat2 | Mat2x2 | Mat2x3 | Mat3x2 | Mat4x2 | Mat2x4 | Mat3 | Mat3x3 | Mat3x4 | Mat4x3)[]) { }
-
-    get 0(): Vec3 { return new Vec3(0); }
-    get 1(): Vec3 { return new Vec3(0); }
-    get 2(): Vec3 { return new Vec3(0); }
-    get 3(): Vec3 { return new Vec3(0); }
-}
-export class Mat4x4 {
-    private typename: "mat4x4" = "mat4x4";
-    constructor(...args: (Float | Vec2 | Vec3 | Vec4 | Mat2 | Mat2x2 | Mat2x3 | Mat3x2 | Mat4x2 | Mat2x4 | Mat3 | Mat3x3 | Mat3x4 | Mat4x3 | Mat4)[]) { }
-
-    get 0(): Vec4 { return new Vec4(0); }
-    get 1(): Vec4 { return new Vec4(0); }
-    get 2(): Vec4 { return new Vec4(0); }
-    get 3(): Vec4 { return new Vec4(0); }
+    add(rhs: Mat4): Mat4 { return new Mat4(); }
+    subtract(rhs: Mat4): Mat4 { return new Mat4(); }
+    multiply<T extends Mat4Mul>(rhs: T): Mat4MulResult<T> { return {} as Mat4MulResult<T>; }
+    divide(rhs: Mat4): Mat4 { return new Mat4(); }
 }
 
 export class Sampler2D { private typename: "sampler2D" = "sampler2D"; }
@@ -404,15 +419,12 @@ export type UnionIVector = Ivec2 | Ivec3 | Ivec4;
 export type UnionUVector = Uvec2 | Uvec3 | Uvec4;
 
 export type UnionMatrix = Mat2 | Mat3 | Mat4;
-export type UnionMatrix2 = Mat2x2 | Mat2x3 | Mat2x4;
-export type UnionMatrix3 = Mat3x2 | Mat3x3 | Mat3x4;
-export type UnionMatrix4 = Mat4x2 | Mat4x3 | Mat4x4;
 
 export type UnionSampler = Sampler2D | Sampler3D | SamplerCube | SamplerCubeShadow | Sampler2DShadow | Sampler2DArray | Sampler2DArrayShadow;
 export type UnionISampler = Isampler2D | Isampler3D | IsamplerCube | Isampler2DArray;
 export type UnionUSampler = Usampler2D | Usampler3D | UsamplerCube | Usampler2DArray;
 
-export type UnionAll = UnionScalar | UnionVector | UnionBVector | UnionIVector | UnionUVector | UnionMatrix | UnionMatrix2 | UnionMatrix3 | UnionMatrix4 | UnionSampler | UnionISampler | UnionUSampler;
+export type UnionAll = UnionScalar | UnionVector | UnionBVector | UnionIVector | UnionUVector | UnionMatrix | UnionSampler | UnionISampler | UnionUSampler;
 
 export type AttributeUnion =
     Float | Vec2 | Vec3 | Vec4 | Mat2 | Mat3 | Mat4;

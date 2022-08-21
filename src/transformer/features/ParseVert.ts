@@ -9,12 +9,12 @@ export namespace ParseVert {
         const type = project.checker.getTypeAtLocation(attribute);
         const properties = project.checker.getPropertiesOfType(type);
 
-        return properties.map((property) => {
+        return properties.map((property, i) => {
             const name = property.getName();
             const type = project.checker.getTypeOfSymbolAtLocation(property, attribute);
             const type_string = project.checker.typeToString(type).toLowerCase();
 
-            return `attribute ${type_string} ${name};`;
+            return `layout(location = ${i}) in ${type_string} ${name};`;
         }).join("\n");
     }
 
@@ -25,12 +25,12 @@ export namespace ParseVert {
         const type = project.checker.getTypeAtLocation(varying);
         const properties = project.checker.getPropertiesOfType(type);
 
-        return properties.map((property) => {
+        return properties.map((property, i) => {
             const name = property.getName();
             const type = project.checker.getTypeOfSymbolAtLocation(property, varying);
             const type_string = project.checker.typeToString(type).toLowerCase();
 
-            return `varying ${type_string} ${name};`;
+            return `layout(location = ${i}) out ${type_string} ${name};`;
         }).join("\n");
     }
 
@@ -123,11 +123,17 @@ export namespace ParseVert {
                 const left = parse_expr(expr.left);
                 const right = parse_expr(expr.right);
                 return `${left} ${expr.operatorToken.getText()} ${right}`;
-            } else if (ts.isIdentifier(expr) || ts.isPropertyAccessExpression(expr) || ts.isElementAccessExpression(expr)) {
+            }
+
+            if (ts.isIdentifier(expr) || ts.isPropertyAccessExpression(expr) || ts.isElementAccessExpression(expr)) {
                 return process_variable_access(expr.getText());
-            } else if (ts.isNumericLiteral(expr)) {
+            } 
+            
+            if (ts.isNumericLiteral(expr)) {
                 return expr.getText();
-            } else if (ts.isNewExpression(expr)) {
+            } 
+            
+            if (ts.isNewExpression(expr)) {
                 const constructor = expr.expression.getText();
                 if (!basic_types.includes(constructor))
                     throw new Error(`Cannot create new instance of ${constructor}`);
@@ -136,6 +142,30 @@ export namespace ParseVert {
                 return `${constructor.toLowerCase()}(${args})`;
             }
 
+            if (ts.isCallExpression(expr)) {
+                const func = expr.expression;
+                const args = expr.arguments?.map(parse_expr).join(", ");
+                
+                if (ts.isPropertyAccessExpression(func)) {
+                    const func_name = func.name.getText();
+                    const target = parse_expr(func.expression);
+
+                    if (operator_methods[func_name]) {
+                        if (operator_methods[func_name][1] === 1) {
+                            return `(${operator_methods[func_name][0]}(${process_variable_access(target)}))`;
+                        }
+
+                        if (operator_methods[func_name][1] === 2) {
+                            return `(${process_variable_access(target)} ${operator_methods[func_name][0]} ${args})`;
+                        }
+                    }
+                }
+                
+                console.log(expr);
+                return `${process_variable_access(func.getText())}(${args})`;
+            }
+
+            console.log(expr);
             return expr.getText();
         };
 
@@ -155,7 +185,7 @@ export namespace ParseVert {
 
                 return properties_text;
             }
-            
+
             if (ts.isExpressionStatement(stmt)) {
                 const expr = stmt.expression;
                 if (!ts.isBinaryExpression(expr))
@@ -166,8 +196,6 @@ export namespace ParseVert {
 
                 return `    ${process_variable_access(left)} = ${parse_expr(right)};`;
             }
-
-            console.log(stmt);
 
             if (ts.isVariableStatement(stmt)) {
                 const decl = stmt.declarationList.declarations[0];
@@ -242,3 +270,31 @@ const basic_types = [
     "Isampler2D", "Isampler3D", "IsamplerCube", "Isampler2DArray",
     "Usampler2D", "Usampler3D", "UsamplerCube", "Usampler2DArray",
 ];
+
+const operator_methods: { [key: string]: [string, number] } = {
+    add: ["+", 2],
+    subtract: ["-", 2],
+    multiply: ["*", 2],
+    divide: ["/", 2],
+    modulo: ["%", 2],
+    negative: ["-", 1],
+
+    equals: ["==", 2],
+    notEquals: ["!=", 2],
+    and: ["&&", 2],
+    or: ["||", 2],
+    not: ["!", 1],
+
+    lessThan: ["<", 2],
+    lessThanOrEqual: ["<=", 2],
+    greaterThan: [">", 2],
+    greaterThanOrEqual: [">=", 2],
+
+    leftShift: ["<<", 2],
+    rightShift: [">>", 2],
+
+    bitWiseAnd: ["&", 2],
+    bitWiseOr: ["|", 2],
+    bitWiseXor: ["^", 2],
+    bitWiseNot: ["~", 1],
+}

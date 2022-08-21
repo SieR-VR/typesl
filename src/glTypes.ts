@@ -1,17 +1,75 @@
-export class Void {
-    private typename: "void" = "void";
-}
 export class Bool {
     private typename: "bool" = "bool";
+
+    equals(other: Bool | boolean): Bool { return new Bool(); }
+    notEquals(other: Bool | boolean): Bool { return new Bool(); }
+    and(other: Bool | boolean): Bool { return new Bool(); }
+    or(other: Bool | boolean): Bool { return new Bool(); }
+    not(): Bool { return new Bool(); }
 }
 export class Int {
     private typename: "int" = "int";
+
+    add(other: Int | number): Int { return new Int(); }
+    subtract(other: Int | number): Int { return new Int(); }
+    multiply(other: Int | number): Int { return new Int(); }
+    divide(other: Int | number): Int { return new Int(); }
+    modulo(other: Int | number): Int { return new Int(); }
+
+    equals(other: Int | number): Bool { return new Bool(); }
+    notEquals(other: Int | number): Bool { return new Bool(); }
+    lessThan(other: Int | number): Bool { return new Bool(); }
+    lessThanOrEqual(other: Int | number): Bool { return new Bool(); }
+    greaterThan(other: Int | number): Bool { return new Bool(); }
+    greaterThanOrEqual(other: Int | number): Bool { return new Bool(); }
+
+    bitWiseAnd(other: Int | number): Int { return new Int(); }
+    bitWiseOr(other: Int | number): Int { return new Int(); }
+    bitWiseXor(other: Int | number): Int { return new Int(); }
+    bitWiseNot(): Int { return new Int(); }
+
+    leftShift(other: Uint | number): Int { return new Int(); }
+    rightShift(other: Uint | number): Int { return new Int(); }
 }
 export class Uint {
     private typename: "uint" = "uint";
+
+    add(other: Uint | number): Uint { return new Uint(); }
+    subtract(other: Uint | number): Uint { return new Uint(); }
+    multiply(other: Uint | number): Uint { return new Uint(); }
+    divide(other: Uint | number): Uint { return new Uint(); }
+    modulo(other: Uint | number): Uint { return new Uint(); }
+
+    equals(other: Uint | number): Bool { return new Bool(); }
+    notEquals(other: Uint | number): Bool { return new Bool(); }
+    lessThan(other: Uint | number): Bool { return new Bool(); }
+    lessThanOrEqual(other: Uint | number): Bool { return new Bool(); }
+    greaterThan(other: Uint | number): Bool { return new Bool(); }
+    greaterThanOrEqual(other: Uint | number): Bool { return new Bool(); }
+
+    bitWiseAnd(other: Uint | number): Uint { return new Uint(); }
+    bitWiseOr(other: Uint | number): Uint { return new Uint(); }
+    bitWiseXor(other: Uint | number): Uint { return new Uint(); }
+    bitWiseNot(): Uint { return new Uint(); }
+
+    leftShift(other: Uint | number): Uint { return new Uint(); }
+    rightShift(other: Uint | number): Uint { return new Uint(); }
 }
 export class Float {
     private typename: "float" = "float";
+
+    add(rhs: Float | number): Float { return new Float(); }
+    subtract(rhs: Float | number): Float { return new Float(); }
+    multiply(rhs: Float | number): Float { return new Float(); }
+    divide(rhs: Float | number): Float { return new Float(); }
+    negative(): Float { return new Float(); }
+
+    equals(rhs: Float | number): Bool { return new Bool(); }
+    notEquals(rhs: Float | number): Bool { return new Bool(); }
+    lessThan(rhs: Float | number): Bool { return new Bool(); }
+    lessThanOrEqual(rhs: Float | number): Bool { return new Bool(); }
+    greaterThan(rhs: Float | number): Bool { return new Bool(); }
+    greaterThanOrEqual(rhs: Float | number): Bool { return new Bool(); }
 }
 
 export class Vec2 {
@@ -44,7 +102,7 @@ export class Vec3 {
     get 1(): Float { return new Float(); }
     get 2(): Float { return new Float(); }
 }
-export class Vec4 { 
+export class Vec4 {
     private typename: "vec4" = "vec4";
     constructor(x: Float | Vec2 | Vec3 | Vec4 | number, y?: Float | Vec2 | Vec3 | number, z?: Float | Vec2 | number, w?: Float | number) { }
 
@@ -66,7 +124,7 @@ export class Vec4 {
     get 3(): Float { return new Float(); }
 }
 
-export class Bvec2 { 
+export class Bvec2 {
     private typename: "bvec2" = "bvec2";
     constructor(x: Bool | Bvec2 | boolean, y?: Bool | boolean) { }
 
@@ -79,7 +137,7 @@ export class Bvec2 {
     get 0(): Bool { return new Bool(); }
     get 1(): Bool { return new Bool(); }
 }
-export class Bvec3 { 
+export class Bvec3 {
     private typename: "bvec3" = "bvec3";
     constructor(x: Bool | Bvec2 | Bvec3 | boolean, y?: Bool | Bvec2 | boolean, z?: Bool | boolean) { }
 
@@ -96,7 +154,7 @@ export class Bvec3 {
     get 1(): Bool { return new Bool(); }
     get 2(): Bool { return new Bool(); }
 }
-export class Bvec4 { 
+export class Bvec4 {
     private typename: "bvec4" = "bvec4";
     constructor(x: Bool | Bvec2 | Bvec3 | Bvec4 | boolean, y?: Bool | Bvec2 | Bvec3 | boolean, z?: Bool | Bvec2 | boolean, w?: Bool | boolean) { }
 
@@ -118,7 +176,7 @@ export class Bvec4 {
     get 3(): Bool { return new Bool(); }
 }
 
-export class Ivec2 { 
+export class Ivec2 {
     private typename: "ivec2" = "ivec2";
     constructor(x: Int | Ivec2 | number, y?: Int | number) { }
 
@@ -131,7 +189,7 @@ export class Ivec2 {
     get 0(): Int { return new Int(); }
     get 1(): Int { return new Int(); }
 }
-export class Ivec3 { 
+export class Ivec3 {
     private typename: "ivec3" = "ivec3";
     constructor(x: Int | Ivec2 | Ivec3 | number, y?: Int | Ivec2 | number, z?: Int | number) { }
 
@@ -148,7 +206,7 @@ export class Ivec3 {
     get 1(): Int { return new Int(); }
     get 2(): Int { return new Int(); }
 }
-export class Ivec4 { 
+export class Ivec4 {
     private typename: "ivec4" = "ivec4";
     constructor(x: Int | Ivec2 | Ivec3 | Ivec4 | number, y?: Int | Ivec2 | Ivec3 | number, z?: Int | Ivec2 | number, w?: Int | number) { }
 
@@ -170,7 +228,7 @@ export class Ivec4 {
     get 3(): Int { return new Int(); }
 }
 
-export class Uvec2 { 
+export class Uvec2 {
     private typename: "uvec2" = "uvec2";
     constructor(x: Uint | Uvec2 | number, y?: Uint | number) { }
 
@@ -179,7 +237,7 @@ export class Uvec2 {
     get r(): Uint { return new Uint(); }
     get g(): Uint { return new Uint(); }
     get s(): Uint { return new Uint(); }
-    get t(): Uint { return new Uint(); } 
+    get t(): Uint { return new Uint(); }
     get 0(): Uint { return new Uint(); }
     get 1(): Uint { return new Uint(); }
 }
@@ -200,7 +258,7 @@ export class Uvec3 {
     get 1(): Uint { return new Uint(); }
     get 2(): Uint { return new Uint(); }
 }
-export class Uvec4 { 
+export class Uvec4 {
     private typename: "uvec4" = "uvec4";
     constructor(x: Uint | Uvec2 | Uvec3 | Uvec4 | number, y?: Uint | Uvec2 | Uvec3 | number, z?: Uint | Uvec2 | number, w?: Uint | number) { }
 
@@ -221,14 +279,14 @@ export class Uvec4 {
     get 2(): Uint { return new Uint(); }
 }
 
-export class Mat2 { 
+export class Mat2 {
     private typename: "mat2" = "mat2";
     constructor(...args: (Float | Vec2 | Vec3 | Vec4 | Mat2 | Mat2x2)[]) { }
 
     get 0(): Vec2 { return new Vec2(0); }
     get 1(): Vec2 { return new Vec2(0); }
 }
-export class Mat3 { 
+export class Mat3 {
     private typename: "mat3" = "mat3";
     constructor(...args: (Float | Vec2 | Vec3 | Vec4 | Mat2 | Mat2x2 | Mat3x2 | Mat2x3 | Mat3 | Mat3x3 | Mat2x4 | Mat4x2)[]) { }
 
@@ -236,7 +294,7 @@ export class Mat3 {
     get 1(): Vec3 { return new Vec3(0); }
     get 2(): Vec3 { return new Vec3(0); }
 }
-export class Mat4 { 
+export class Mat4 {
     private typename: "mat4" = "mat4";
     constructor(...args: (Float | Vec2 | Vec3 | Vec4 | Mat2 | Mat2x2 | Mat3x2 | Mat2x3 | Mat3 | Mat3x3 | Mat4x2 | Mat2x4 | Mat4x3 | Mat3x4 | Mat4)[]) { }
 
@@ -246,21 +304,21 @@ export class Mat4 {
     get 3(): Vec4 { return new Vec4(0); }
 }
 
-export class Mat2x2 { 
+export class Mat2x2 {
     private typename: "mat2x2" = "mat2x2";
     constructor(...args: (Float | Vec2 | Vec3 | Vec4 | Mat2 | Mat2x2)[]) { }
 
     get 0(): Vec2 { return new Vec2(0); }
     get 1(): Vec2 { return new Vec2(0); }
 }
-export class Mat2x3 { 
+export class Mat2x3 {
     private typename: "mat2x3" = "mat2x3";
     constructor(...args: (Float | Vec2 | Vec3 | Vec4 | Mat2 | Mat2x2 | Mat3x2 | Mat2x3)[]) { }
 
     get 0(): Vec3 { return new Vec3(0); }
     get 1(): Vec3 { return new Vec3(0); }
 }
-export class Mat2x4 { 
+export class Mat2x4 {
     private typename: "mat2x4" = "mat2x4";
     constructor(...args: (Float | Vec2 | Vec3 | Vec4 | Mat2 | Mat2x2 | Mat4x2 | Mat2x4)[]) { }
 
@@ -268,7 +326,7 @@ export class Mat2x4 {
     get 1(): Vec4 { return new Vec4(0); }
 }
 
-export class Mat3x2 { 
+export class Mat3x2 {
     private typename: "mat3x2" = "mat3x2";
     constructor(...args: (Float | Vec2 | Vec3 | Vec4 | Mat2 | Mat2x2 | Mat3x2 | Mat2x3)[]) { }
 
@@ -276,7 +334,7 @@ export class Mat3x2 {
     get 1(): Vec2 { return new Vec2(0); }
     get 2(): Vec2 { return new Vec2(0); }
 }
-export class Mat3x3 { 
+export class Mat3x3 {
     private typename: "mat3x3" = "mat3x3";
     constructor(...args: (Float | Vec2 | Vec3 | Vec4 | Mat2 | Mat2x2 | Mat3x2 | Mat2x3 | Mat3 | Mat3x3 | Mat2x4 | Mat4x2)[]) { }
 
@@ -284,7 +342,7 @@ export class Mat3x3 {
     get 1(): Vec3 { return new Vec3(0); }
     get 2(): Vec3 { return new Vec3(0); }
 }
-export class Mat3x4 { 
+export class Mat3x4 {
     private typename: "mat3x4" = "mat3x4";
     constructor(...args: (Float | Vec2 | Vec3 | Vec4 | Mat2 | Mat2x2 | Mat3x2 | Mat2x3 | Mat3 | Mat3x3 | Mat4x2 | Mat2x4 | Mat4x3 | Mat3x4)[]) { }
 
@@ -293,7 +351,7 @@ export class Mat3x4 {
     get 2(): Vec4 { return new Vec4(0); }
 }
 
-export class Mat4x2 { 
+export class Mat4x2 {
     private typename: "mat4x2" = "mat4x2";
     constructor(...args: (Float | Vec2 | Vec3 | Vec4 | Mat2 | Mat2x2 | Mat2x3 | Mat3x2 | Mat4x2 | Mat2x4)[]) { }
 
@@ -302,7 +360,7 @@ export class Mat4x2 {
     get 2(): Vec2 { return new Vec2(0); }
     get 3(): Vec2 { return new Vec2(0); }
 }
-export class Mat4x3 { 
+export class Mat4x3 {
     private typename: "mat4x3" = "mat4x3";
     constructor(...args: (Float | Vec2 | Vec3 | Vec4 | Mat2 | Mat2x2 | Mat2x3 | Mat3x2 | Mat4x2 | Mat2x4 | Mat3 | Mat3x3 | Mat3x4 | Mat4x3)[]) { }
 
@@ -311,7 +369,7 @@ export class Mat4x3 {
     get 2(): Vec3 { return new Vec3(0); }
     get 3(): Vec3 { return new Vec3(0); }
 }
-export class Mat4x4 { 
+export class Mat4x4 {
     private typename: "mat4x4" = "mat4x4";
     constructor(...args: (Float | Vec2 | Vec3 | Vec4 | Mat2 | Mat2x2 | Mat2x3 | Mat3x2 | Mat4x2 | Mat2x4 | Mat3 | Mat3x3 | Mat3x4 | Mat4x3 | Mat4)[]) { }
 

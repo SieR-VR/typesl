@@ -2,8 +2,6 @@
 
 **TypeSL** (**Type**script **S**hader **L**anguage) enables Typescript -> GLSL Transpile.
 
-<hr>
-
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
@@ -24,8 +22,6 @@
     <li><a href="#license">License</a></li>
   </ol>
 </details>
-
-<br>
 
 # Example
 

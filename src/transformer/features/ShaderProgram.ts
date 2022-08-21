@@ -26,8 +26,10 @@ export namespace ShaderProgramTransformer {
         const attribute = parent_type_args?.[0];
         const varying = parent_type_args?.[1];
         const uniform = parent_type_args?.[2];
-
+        
+        const file_name = expression.name?.getText();        
         const vert_vs = ParseVert.parse(project, vert, attribute!, varying!, uniform!);
-        fs.writeFileSync("vert.vs", vert_vs);
+        
+        fs.writeFileSync(`${file_name}.vs`, vert_vs);
     }
 }

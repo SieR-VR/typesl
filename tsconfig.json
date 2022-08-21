@@ -102,5 +102,8 @@
     "plugins": [
       { "transform": "./src/index.ts" }
     ]
-  }
+  },
+  "include": [
+    "test/*.ts"
+  ]
 }

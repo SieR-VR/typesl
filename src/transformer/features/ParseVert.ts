@@ -102,19 +102,43 @@ export namespace ParseVert {
     }
 
     function process_variable_access(target: string) {
+        if (target.startsWith("this."))
+            target = target.replace("this.", "");
+
         if (target.startsWith("attribute."))
-            return target.replace("attribute.", "");
-        else if (target.startsWith("varying."))
-            return target.replace("varying.", "");
-        else if (target.startsWith("uniform."))
-            return target.replace("uniform.", "");
-        else if (target.startsWith("this."))
-            return target.replace("this.", "");
-        else
-            return target;
+            target = target.replace("attribute.", "");
+
+        if (target.startsWith("varying."))
+            target = target.replace("varying.", "");
+
+        if (target.startsWith("uniform."))
+            target = target.replace("uniform.", "");
+
+        return target;
     }
 
     function parse_main(project: IProject, main: ts.FunctionDeclaration) {
+        const parse_expr = (expr: ts.Expression): string => {
+            if (ts.isBinaryExpression(expr)) {
+                const left = parse_expr(expr.left);
+                const right = parse_expr(expr.right);
+                return `${left} ${expr.operatorToken.getText()} ${right}`;
+            } else if (ts.isIdentifier(expr) || ts.isPropertyAccessExpression(expr) || ts.isElementAccessExpression(expr)) {
+                return process_variable_access(expr.getText());
+            } else if (ts.isNumericLiteral(expr)) {
+                return expr.getText();
+            } else if (ts.isNewExpression(expr)) {
+                const constructor = expr.expression.getText();
+                if (!basic_types.includes(constructor))
+                    throw new Error(`Cannot create new instance of ${constructor}`);
+
+                const args = expr.arguments?.map(parse_expr).join(", ");
+                return `${constructor.toLowerCase()}(${args})`;
+            }
+
+            return expr.getText();
+        };
+
         const parse_stmt = (stmt: ts.Statement) => {
             if (ts.isReturnStatement(stmt)) {
                 const expr = stmt.expression;
@@ -124,29 +148,44 @@ export namespace ParseVert {
                 const properties = (expr as ts.ObjectLiteralExpression).properties;
                 const properties_text = properties.map((property) => {
                     const name = property.name?.getText();
-                    const value = property.getChildren()[property.getChildren().length - 1].getText();
+                    const value = property.getChildren()[property.getChildren().length - 1];
 
-                    return `    ${name} = ${process_variable_access(value)};`;
+                    return `    ${name} = ${parse_expr(value as ts.Expression)};`;
                 }).join("\n");
 
                 return properties_text;
             }
+            
             if (ts.isExpressionStatement(stmt)) {
                 const expr = stmt.expression;
                 if (!ts.isBinaryExpression(expr))
                     throw new Error("Expression statement must be a binary expression.");
 
                 const left = expr.left.getText();
-                const right = expr.right.getText();
+                const right = expr.right;
 
-                return `    ${process_variable_access(left)} = ${process_variable_access(right)};`;
+                return `    ${process_variable_access(left)} = ${parse_expr(right)};`;
+            }
+
+            console.log(stmt);
+
+            if (ts.isVariableStatement(stmt)) {
+                const decl = stmt.declarationList.declarations[0];
+                const expr = decl.initializer;
+                const type = project.checker.typeToString(project.checker.getTypeAtLocation(decl));
+
+                if (!basic_types.includes(type))
+                    throw new Error("Cannot declare non-basic type.");
+
+                if (!expr)
+                    throw new Error("Variable declaration must have an initializer.");
+
+                return `    ${type.toLowerCase()} ${decl.name.getText()} = ${parse_expr(expr)};`;
             }
         }
 
         const header = `void main() {`;
-        const body = main.body?.statements.map((statement) => {
-            return parse_stmt(statement);
-        }).join("\n");
+        const body = main.body?.statements.map(parse_stmt).join("\n");
         const footer = `}`;
 
         return [header, body, footer].join("\n");
@@ -159,27 +198,33 @@ export namespace ParseVert {
         varying: ts.TypeNode,
         uniform: ts.TypeNode,
     ): string {
-        const header = "#version 300 es";
+        const source: string[] = [];
+
+        const header =
+            "#version 300 es\n" +
+            "precision highp float;";
+        source.push(header);
 
         const structs = get_type_structs(project, uniform).map((type) => type_to_struct(project, type, uniform));
         const struct_declarations = structs.map((struct) => struct.decl).join("\n");
+        if (struct_declarations.length) source.push(struct_declarations);
+
         const struct_implements = structs.map((struct) => struct.impl).join("\n");
+        if (struct_implements.length) source.push(struct_implements);
 
         const attribute_declarations = parse_attribute_declarations(project, attribute);
+        if (attribute_declarations.length) source.push(attribute_declarations);
+
         const varying_declarations = parse_varying_declarations(project, varying);
+        if (varying_declarations.length) source.push(varying_declarations);
+
         const uniform_declarations = parse_uniform_declarations(project, uniform);
+        if (uniform_declarations.length) source.push(uniform_declarations);
 
         const main = parse_main(project, vert);
+        source.push(main);
 
-        return [
-            header, 
-            attribute_declarations, 
-            varying_declarations,
-            struct_declarations, 
-            struct_implements,
-            uniform_declarations,
-            main,
-        ].join("\n\n");
+        return source.join("\n\n");
     }
 }
 
@@ -196,7 +241,4 @@ const basic_types = [
     "Sampler2D", "Sampler3D", "SamplerCube", "SamplerCubeShadow", "Sampler2DShadow", "Sampler2DArray", "Sampler2DArrayShadow",
     "Isampler2D", "Isampler3D", "IsamplerCube", "Isampler2DArray",
     "Usampler2D", "Usampler3D", "UsamplerCube", "Usampler2DArray",
-
-    // Why this required?
-    "error", "any"
 ];

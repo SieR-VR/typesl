@@ -19,7 +19,7 @@ interface TestUniform extends Uniform {
 
 interface TestStruct extends Struct {
     readonly test: Float;
-    readonly test2: TestStruct2;
+    readonly test_two: TestStruct2;
 }
 
 interface TestStruct2 extends Struct {
@@ -35,6 +35,6 @@ class TestShader extends ShaderProgram<TestAttribute, TestVarying, TestUniform> 
         }
     }
     frag(varying: TestVarying): Vec4 {
-        return {};
+        return new Vec4(0);
     }
 }

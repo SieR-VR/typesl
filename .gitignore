@@ -1,5 +1,6 @@
 *.js
 *.vs
+*.fs
 
 node_modules
 

@@ -1,8 +1,10 @@
 import ts from "typescript";
 import * as fs from "fs";
+import * as path from "path";
 import { IProject } from "../IProject";
 
 import { ParseVert } from "./ParseVert";
+import { ParseFrag } from "./ParseFrag";
 
 export namespace ShaderProgramTransformer {
     export function transform(
@@ -29,7 +31,18 @@ export namespace ShaderProgramTransformer {
         
         const file_name = expression.name?.getText();        
         const vert_vs = ParseVert.parse(project, vert, attribute!, varying!, uniform!);
+        const frag_fs = ParseFrag.parse(project, frag, varying!, uniform!);
         
-        fs.writeFileSync(`${file_name}.vs`, vert_vs);
+        if (project.config.glslOutDir) {
+            fs.writeFileSync(path.join(project.config.glslOutDir, `./${file_name}.vs`), vert_vs);
+            fs.writeFileSync(path.join(project.config.glslOutDir, `./${file_name}.fs`), frag_fs);
+        }
+        else {
+            const directory = path.dirname(expression.getSourceFile().fileName);
+
+            fs.writeFileSync(path.join(directory, `./${file_name}.vs`), vert_vs);
+            fs.writeFileSync(path.join(directory, `./${file_name}.fs`), frag_fs);
+        }
+        
     }
 }

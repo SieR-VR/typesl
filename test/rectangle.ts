@@ -26,6 +26,6 @@ class RectangleShader extends ShaderProgram<RectangleAttribute, RectangleVarying
     }
 
     frag(varying: RectangleVarying, uniform: RectangleUniform): Vec4 {
-        throw new Error("Method not implemented.");
+        return new Vec4(0.0, 0.0, 0.0, 0.0);
     }
 }

@@ -23,8 +23,19 @@ export interface PluginConfig {
      * Should transformer applied for d.ts files, supports from TS2.9
      */
     afterDeclarations?: boolean;
+
+    /**
+     * Target GLSL Version
+     */
+    profile?: '300es' | '100es';
+
+    /**
+     * Specify output directory
+     */
+    glslOutDir?: string;
+
     /**
      * any other properties provided to the transformer as config argument
-     * */
+     */
     [options: string]: any;
 }

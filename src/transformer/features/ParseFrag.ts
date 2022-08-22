@@ -2,24 +2,21 @@ import ts from "typescript";
 import { IProject } from "../IProject";
 
 import {
-    parse_attribute_declarations,
     parse_uniform_declarations,
     parse_varying_declarations,
-    get_type_structs, 
+    get_type_structs,
     type_to_struct,
-    parse_vert_main 
+    parse_frag_main
 } from "./utils";
 
-export namespace ParseVert {
+export namespace ParseFrag {
     export function parse(
         project: IProject,
-        vert: ts.FunctionDeclaration,
-        attribute: ts.TypeNode,
+        frag: ts.FunctionDeclaration,
         varying: ts.TypeNode,
-        uniform: ts.TypeNode,
+        uniform: ts.TypeNode
     ): string {
         const source: string[] = [];
-
         const header =
             "#version 300 es\n" +
             "precision highp float;";
@@ -32,19 +29,15 @@ export namespace ParseVert {
         const struct_implements = structs.map((struct) => struct.impl).join("\n");
         if (struct_implements.length) source.push(struct_implements);
 
-        const attribute_declarations = parse_attribute_declarations(project, attribute);
-        if (attribute_declarations.length) source.push(attribute_declarations);
-
         const varying_declarations = parse_varying_declarations(project, varying);
         if (varying_declarations.length) source.push(varying_declarations);
 
         const uniform_declarations = parse_uniform_declarations(project, uniform);
         if (uniform_declarations.length) source.push(uniform_declarations);
 
-        const main = parse_vert_main(project, vert);
+        const main = parse_frag_main(project, frag);
         source.push(main);
 
         return source.join("\n\n");
     }
 }
-

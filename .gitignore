@@ -1,6 +1,9 @@
 *.vs
 *.fs
 
+*.js
+*.d.ts
+
 node_modules
 lib
 typings

@@ -1,7 +1,7 @@
 import ts from "typescript";
-import { FileTransformer } from "./FileTransformer";
-import { PluginConfig } from "./IPluginConfig";
-import { IProject } from "./IProject";
+import { FileTransformer } from "./transform/FileTransformer";
+import { PluginConfig } from "./transform/IPluginConfig";
+import { IProject } from "./transform/IProject";
 
 export default function transform(
     program: ts.Program,

@@ -1,9 +1,9 @@
 {
   "name": "typesl",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "**TypeSL** (**Type**script **S**hader **L**anguage) enables Typescript -> GLSL Transpile.",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "main": "lib/src/index.js",
+  "typings": "typings/src/index.d.ts",
   "directories": {
     "test": "test"
   },

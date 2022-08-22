@@ -1,6 +1,6 @@
 {
   "name": "typesl",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "**TypeSL** (**Type**script **S**hader **L**anguage) enables Typescript -> GLSL Transpile.",
   "main": "index.js",
   "directories": {
@@ -9,8 +9,10 @@
   "devDependencies": {
     "@types/node": "^18.7.8",
     "ts-node": "^10.9.1",
-    "ttypescript": "^1.5.13",
     "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "ttypescript": "^1.5.13"
   },
   "scripts": {
     "dev": "ttsc"
@@ -25,5 +27,8 @@
   "bugs": {
     "url": "https://github.com/SieR-VR/typesl/issues"
   },
-  "homepage": "https://github.com/SieR-VR/typesl#readme"
+  "homepage": "https://github.com/SieR-VR/typesl#readme",
+  "bin": {
+    "tslc": "./bin/index.js"
+  }
 }

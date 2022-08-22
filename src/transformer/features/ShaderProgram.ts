@@ -34,8 +34,9 @@ export namespace ShaderProgramTransformer {
         const frag_fs = ParseFrag.parse(project, frag, varying!, uniform!);
         
         if (project.config.glslOutDir) {
-            fs.writeFileSync(path.join(project.config.glslOutDir, `./${file_name}.vs`), vert_vs);
-            fs.writeFileSync(path.join(project.config.glslOutDir, `./${file_name}.fs`), frag_fs);
+            fs.mkdir(project.config.glslOutDir, { recursive: true }, () => {});
+            fs.writeFileSync(path.join(project.config.glslOutDir, `${file_name}.vs`), vert_vs);
+            fs.writeFileSync(path.join(project.config.glslOutDir, `${file_name}.fs`), frag_fs);
         }
         else {
             const directory = path.dirname(expression.getSourceFile().fileName);

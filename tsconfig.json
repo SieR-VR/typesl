@@ -100,7 +100,7 @@
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true,                                /* Skip type checking all .d.ts files. */
     "plugins": [
-      { "transform": "./src/index.ts" }
+      { "transform": "./src/index.ts", "glslOutDir": "./glsl" }
     ]
   },
   "include": [

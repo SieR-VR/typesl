@@ -2,4 +2,4 @@
 *.fs
 
 node_modules
-
+dist

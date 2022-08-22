@@ -20,3 +20,7 @@ export default function transform(
         return source;
     }
 }
+
+export * from "./ShaderProgram";
+export * as GLTypes from "./glTypes";
+export * as GLFunctions from "./glFunctions";

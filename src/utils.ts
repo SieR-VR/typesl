@@ -1,49 +1,48 @@
 import ts from "typescript";
-import { IProject } from "../IProject";
 
 export function parse_attribute_declarations(
-    project: IProject,
+    checker: ts.TypeChecker,
     attribute: ts.TypeNode,
 ): string {
-    const type = project.checker.getTypeAtLocation(attribute);
-    const properties = project.checker.getPropertiesOfType(type);
+    const type = checker.getTypeAtLocation(attribute);
+    const properties = checker.getPropertiesOfType(type);
 
     return properties.map((property, i) => {
         const name = property.getName();
-        const type = project.checker.getTypeOfSymbolAtLocation(property, attribute);
-        const type_string = project.checker.typeToString(type).toLowerCase();
+        const type = checker.getTypeOfSymbolAtLocation(property, attribute);
+        const type_string = checker.typeToString(type).toLowerCase();
 
         return `layout(location = ${i}) in ${type_string} ${name};`;
     }).join("\n");
 }
 
 export function parse_varying_declarations(
-    project: IProject,
+    checker: ts.TypeChecker,
     varying: ts.TypeNode,
 ): string {
-    const type = project.checker.getTypeAtLocation(varying);
-    const properties = project.checker.getPropertiesOfType(type);
+    const type = checker.getTypeAtLocation(varying);
+    const properties = checker.getPropertiesOfType(type);
 
     return properties.map((property, i) => {
         const name = property.getName();
-        const type = project.checker.getTypeOfSymbolAtLocation(property, varying);
-        const type_string = project.checker.typeToString(type).toLowerCase();
+        const type = checker.getTypeOfSymbolAtLocation(property, varying);
+        const type_string = checker.typeToString(type).toLowerCase();
 
         return `layout(location = ${i}) out ${type_string} ${name};`;
     }).join("\n");
 }
 
 export function parse_uniform_declarations(
-    project: IProject,
+    checker: ts.TypeChecker,
     uniform: ts.TypeNode,
 ): string {
-    const type = project.checker.getTypeAtLocation(uniform);
-    const properties = project.checker.getPropertiesOfType(type);
+    const type = checker.getTypeAtLocation(uniform);
+    const properties = checker.getPropertiesOfType(type);
 
     return properties.map((property) => {
         const name = property.getName();
-        const type = project.checker.getTypeOfSymbolAtLocation(property, uniform);
-        const type_string = project.checker.typeToString(type);
+        const type = checker.getTypeOfSymbolAtLocation(property, uniform);
+        const type_string = checker.typeToString(type);
 
         if (basic_types.includes(type_string))
             return `uniform ${type_string.toLowerCase()} ${name};`;
@@ -53,18 +52,18 @@ export function parse_uniform_declarations(
 }
 
 export function get_type_structs(
-    project: IProject,
+    checker: ts.TypeChecker,
     type: ts.TypeNode,
 ): ts.Type[] {
-    const type_ = project.checker.getTypeAtLocation(type);
+    const type_ = checker.getTypeAtLocation(type);
 
     const types: ts.Type[] = [];
     const find = (target_type: ts.Type) => {
-        const properties = project.checker.getPropertiesOfType(target_type);
+        const properties = checker.getPropertiesOfType(target_type);
 
         properties.forEach((property) => {
-            const prop_type = project.checker.getTypeOfSymbolAtLocation(property, type);
-            const prop_type_string = project.checker.typeToString(prop_type);
+            const prop_type = checker.getTypeOfSymbolAtLocation(property, type);
+            const prop_type_string = checker.typeToString(prop_type);
 
             if (!basic_types.includes(prop_type_string)) {
                 types.push(prop_type);
@@ -77,15 +76,15 @@ export function get_type_structs(
     return types;
 }
 
-export function type_to_struct(project: IProject, type: ts.Type, node: ts.TypeNode) {
+export function type_to_struct(checker: ts.TypeChecker, type: ts.Type, node: ts.TypeNode) {
     const properties = type.getProperties();
-    const decl = `struct ${project.checker.typeToString(type)};`;
+    const decl = `struct ${checker.typeToString(type)};`;
 
-    const header = `struct ${project.checker.typeToString(type)} {`;
+    const header = `struct ${checker.typeToString(type)} {`;
     const body = properties.map((property) => {
         const name = property.getName();
-        const prop_type = project.checker.getTypeOfSymbolAtLocation(property, node);
-        const type_string = project.checker.typeToString(prop_type);
+        const prop_type = checker.getTypeOfSymbolAtLocation(property, node);
+        const type_string = checker.typeToString(prop_type);
 
         if (basic_types.includes(type_string))
             return `${" ".repeat(4)}${type_string.toLowerCase()} ${name};`;
@@ -116,7 +115,7 @@ function process_variable_access(target: string) {
     return target;
 }
 
-export function parse_vert_main(project: IProject, main: ts.FunctionDeclaration) {
+export function parse_vert_main(checker: ts.TypeChecker, main: ts.FunctionDeclaration) {
     const parse_expr = (expr: ts.Expression): string => {
         if (ts.isBinaryExpression(expr)) {
             const left = parse_expr(expr.left);
@@ -199,7 +198,7 @@ export function parse_vert_main(project: IProject, main: ts.FunctionDeclaration)
         if (ts.isVariableStatement(stmt)) {
             const decl = stmt.declarationList.declarations[0];
             const expr = decl.initializer;
-            const type = project.checker.typeToString(project.checker.getTypeAtLocation(decl));
+            const type = checker.typeToString(checker.getTypeAtLocation(decl));
 
             if (!basic_types.includes(type))
                 throw new Error("Cannot declare non-basic type.");
@@ -218,7 +217,7 @@ export function parse_vert_main(project: IProject, main: ts.FunctionDeclaration)
     return [header, body, footer].join("\n");
 }
 
-export function parse_frag_main(project: IProject, main: ts.FunctionDeclaration) {
+export function parse_frag_main(checker: ts.TypeChecker, main: ts.FunctionDeclaration) {
     const parse_expr = (expr: ts.Expression): string => {
         if (ts.isBinaryExpression(expr)) {
             const left = parse_expr(expr.left);
@@ -290,7 +289,7 @@ export function parse_frag_main(project: IProject, main: ts.FunctionDeclaration)
         if (ts.isVariableStatement(stmt)) {
             const decl = stmt.declarationList.declarations[0];
             const expr = decl.initializer;
-            const type = project.checker.typeToString(project.checker.getTypeAtLocation(decl));
+            const type = checker.typeToString(checker.getTypeAtLocation(decl));
 
             if (!basic_types.includes(type))
                 throw new Error("Cannot declare non-basic type.");
@@ -308,6 +307,8 @@ export function parse_frag_main(project: IProject, main: ts.FunctionDeclaration)
 
     return [header, body, footer].join("\n");
 }
+
+export const ShaderHeader = "#version 300 es\nprecision highp float;\n";
 
 const basic_types = [
     "Bool", "Int", "Uint", "Float",

@@ -1,4 +1,4 @@
-import * as GLTypes from "./glTypes";
+import * as GLTypes from "./GLTypes";
 
 type TF = GLTypes.Float | GLTypes.Vec2 | GLTypes.Vec3 | GLTypes.Vec4 | number;
 type TI = GLTypes.Int | GLTypes.Ivec2 | GLTypes.Ivec3 | GLTypes.Ivec4 | number;

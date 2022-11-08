@@ -120,10 +120,10 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-transformer-query@^0.3.2:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/transformer-query/-/transformer-query-0.3.2.tgz#b7291da5c62cb3057a4aa08daa25d20d75c294ca"
-  integrity sha512-S3Oq8KM3AM8K2q3Laxn+5al5kH7890Iw7QvF/qtWfkDH33JHmeIfmJ1Iao2ntMg2Dnk8RZ/KLIobbIKEbKY1zw==
+transformer-query@^0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/transformer-query/-/transformer-query-0.3.3.tgz#781d6f3d808e86627e679a0f0935d61da8212c31"
+  integrity sha512-AT/ToXHByBQcztWUEj+uT1LaSuJiDFDpUbwkACgUqEL0K2JY6W0BHYlIXQFgk3Mus/B1MLrHMEpcAZweVQlSFg==
 
 ts-node@^10.9.1:
   version "10.9.1"
